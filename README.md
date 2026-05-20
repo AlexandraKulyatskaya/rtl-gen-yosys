@@ -10,6 +10,7 @@
 - `synth.log` — лог
 - `build.sh` — установка окружения
 - `images/` — svg-схемы модуля
+- `sta.tcl` — скрипт для OpenSTA
 
 ## Как запускать
 
@@ -28,8 +29,14 @@ yosys synth.ys 2>&1 | tee synth.log
 
 5. STA (опционально):
 ```bash
-sta sta.tcl 2>&1 | tee sta.log
+sta sta.tcl 2>&1 | tee sta.log 
 ```
+
+6. Посмотреть картинки:
+```bash
+yosys -p "read_verilog counter_out.v; show -format png -prefix counter_schema counter"
+```
+   
 
 ## Результаты
 
