@@ -1,0 +1,37 @@
+# 1. Чтение исходного RTL
+read_verilog counter.v
+
+# 2. Проверка иерархии и определение топ-модуля
+hierarchy -top counter
+
+# 3. Трансляция поведенческих блоков always в триггеры и мультиплексоры
+proc
+
+# 4. Базовая оптимизация
+opt
+
+# 5. Преобразование во внутреннее представление гейтов Yosys
+techmap
+
+# 6. Оптимизация схемы перед маппингом
+opt
+
+# 7. КРИТИЧЕСКИЙ МАППИНГ ТРИГГЕРОВ (Используем ваш точный путь)
+dfflibmap -liberty /home/sasha/.volare/volare/sky130/versions/0fe599b2afb6708d281543108caf8310912f54af/sky130B/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 8. ТЕХНОЛОГИЧЕСКИЙ МАППИНГ КОМБИНАТОРНОЙ ЛОГИКИ
+abc -liberty /home/sasha/.volare/volare/sky130/versions/0fe599b2afb6708d281543108caf8310912f54af/sky130B/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 9. Финальная очистка нетлиста
+opt
+clean
+
+# 10. Вывод метрик по площади
+stat -liberty /home/sasha/.volare/volare/sky130/versions/0fe599b2afb6708d281543108caf8310912f54af/sky130B/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 11. Запуск встроенного STA (тайминги)
+sta
+
+# 12. Экспорт результирующего технологического нетлиста
+write_verilog counter_out.v
+
